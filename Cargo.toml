@@ -19,6 +19,9 @@ path = "src/semaphore.rs"
 name = "mutex_queue"
 path = "src/mutex_queue.rs"
 
+[[bin]]
+name = "monitor"
+path = "src/monitor.rs"
 
 [dependencies]
 tokio = { version = "1.44.2", features = ["full"] }
