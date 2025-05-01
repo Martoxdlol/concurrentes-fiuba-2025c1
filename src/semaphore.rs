@@ -4,34 +4,24 @@ use tokio::{spawn, sync::Semaphore, time::sleep};
 
 #[tokio::main]
 async fn main() {
-    let sem = Arc::new(Semaphore::new(2));
+    let sem = Arc::new(Semaphore::new(1));
     let sem_clone = Arc::clone(&sem);
 
     spawn(async move {
-        // Obtenemos un permiso (se le saca uno al semáforo)
-        let permit = sem_clone.acquire().await.unwrap();
+        // Obtenemos un permiso (se le saca uno al semáforo, queda en 0)
+        let permit_a = sem_clone.acquire().await.unwrap();
 
         // Do some work
-        println!("permit_thread: {:?}", permit);
+        println!("permit_a: {:?}", permit_a);
         sleep(Duration::from_secs(10)).await;
 
-        // drop(permit);
+        // Acá se libera porque se termina el scope, es lo mismo que hacer `drop(permit);`
     });
 
-    // Obtenemos un permiso (se le saca uno al semáforo)
-    let permit_a = sem.acquire().await.unwrap();
-    println!("permit_a: {:?}", permit_a);
-
     // Esperamos un poco
-    sleep(Duration::from_secs(2)).await;
+    sleep(Duration::from_secs(1)).await;
 
-    // En este punto no hay permisos disponibles, así que el thread principal se queda esperando
-    // al thread que liberará el permiso
-
-    // Obtenemos otro permiso (se le saca uno al semáforo)
+    // Obtenemos otro permiso. Hay que esperar a que el otro thread lo libere
     let permit_b = sem.acquire().await.unwrap();
     println!("permit_b: {:?}", permit_b);
-
-    // drop(permit_a);
-    // drop(permit_b);
 }
