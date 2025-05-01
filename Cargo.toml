@@ -11,4 +11,10 @@ path = "src/convar_basic.rs"
 name = "convar_pingpong"
 path = "src/convar_pingpong.rs"
 
+[[bin]]
+name = "semaphore_basic"
+path = "src/semaphore_basic.rs"
+
+
 [dependencies]
+tokio = { version = "1.44.2", features = ["full"] }
