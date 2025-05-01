@@ -12,8 +12,12 @@ name = "convar_pingpong"
 path = "src/convar_pingpong.rs"
 
 [[bin]]
-name = "semaphore_basic"
-path = "src/semaphore_basic.rs"
+name = "semaphore"
+path = "src/semaphore.rs"
+
+[[bin]]
+name = "mutex_queue"
+path = "src/mutex_queue.rs"
 
 
 [dependencies]
